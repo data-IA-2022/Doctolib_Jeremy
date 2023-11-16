@@ -228,3 +228,20 @@ Une brève description de ce que fait votre application, ses caractéristiques p
    ALTER TABLE `patient` ADD FOREIGN KEY (`fk_id_medecin`, `fk_nom_medecin`) REFERENCES `medecin` (`id_medecin`, `nom_medecin`);
    
    ALTER TABLE `medecin` ADD FOREIGN KEY (`fk_id_administrator`, `fk_nom_administrator`) REFERENCES `administrator` (`id_administrator`, `nom_administrator`);
+  
+4. Créer la connection avec django dans settings.py
+   ```bash
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.mysql',
+           'NAME': 'doctolib_by_django_donnee_test',
+           'USER': 'root',
+           'PASSWORD': 'root',
+           'HOST': 'localhost',
+           'PORT': '3306',
+       }
+   }
+   
+ 5. Vérifier avec la commande
+   ```bash
+   dbinspect
