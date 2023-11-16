@@ -31,7 +31,7 @@ Une brève description de ce que fait votre application, ses caractéristiques p
 ### Étape 4 : Création de la bdd
 
 1. Ouvrez DBeaver et connectez-vous à votre base de données MySQL dans Docker.
-   éléments de connection :
+   Éléments de connection :
    ```bash
    Server host : 127.0.0.1
    Port : 3306
