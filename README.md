@@ -21,6 +21,7 @@ Une brève description de ce que fait votre application, ses caractéristiques p
 
 1. Ouvrez Docker et exécutez la commande suivante pour télécharger l'image MySQL :
    ```bash
-   docker pull mysql```
+   docker pull mysql
 
+   ```bash
    docker run --name nom_conteneur_mysql -e MYSQL_ROOT_PASSWORD=votre_mot_de_passe -d mysql
