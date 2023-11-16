@@ -28,7 +28,7 @@ Une brève description de ce que fait votre application, ses caractéristiques p
    ```bash
    docker run --name nom_conteneur_mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
 
-### Étape 4 : Création de la bdd
+### Étape 3 : Création de la bdd
 
 1. Ouvrez DBeaver et connectez-vous à votre base de données MySQL dans Docker.
    Éléments de connection :
@@ -37,7 +37,7 @@ Une brève description de ce que fait votre application, ses caractéristiques p
    Port : 3306
    Nom d'utilisateur : root
    Mot de passe : root
-   
+2. Créer la bdd Doctolib_By_Django
 3. Exécutez votre script SQL pour configurer la base de données.
 
    ```bash
