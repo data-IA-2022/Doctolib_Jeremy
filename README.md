@@ -17,22 +17,28 @@ Une brève description de ce que fait votre application, ses caractéristiques p
 1. Téléchargez Docker Desktop depuis le lien fourni ci-dessus.
 2. Suivez les instructions d'installation pour votre système d'exploitation.
 
-### Étape 2 : Configuration de MySQL
+### Étape 2 : Création et Lancement d'un Conteneur MySQL
 
 1. Ouvrez Docker et exécutez la commande suivante pour télécharger l'image MySQL :
    ```bash
    docker pull mysql
-
-### Étape 3 : Création et Lancement d'un Conteneur MySQL
-
-1. Ouvrez votre terminal et exécutez la commande suivante pour télécharger l'image MySQL :
+   
+2. Ou avec docker desktop directement
+3. Lancez le conteneur
    ```bash
-   docker pull mysql
+   docker run --name nom_conteneur_mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
 
-### Étape 4 : Création et Lancement d'un Conteneur MySQL
+### Étape 4 : Création de la bdd
 
 1. Ouvrez DBeaver et connectez-vous à votre base de données MySQL dans Docker.
-2. Exécutez votre script SQL pour configurer la base de données.
+   éléments de connection :
+   ```bash
+   Server host : 127.0.0.1
+   Port : 3306
+   Nom d'utilisateur : root
+   Mot de passe : root
+   
+3. Exécutez votre script SQL pour configurer la base de données.
 
    ```bash
    CREATE TABLE `reponse` (
