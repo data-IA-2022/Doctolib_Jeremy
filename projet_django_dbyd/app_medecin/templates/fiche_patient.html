@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Fiches patient{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/style_medecin.css' %}" />
+    <style>
+        .patient-name {cursor: pointer;}
+        .patient-name:hover {color: #4097e1;}
+    </style>
+    <style>
+        .tftable {font-size:12px;color:#212529;width:100%;border-width: 1px;border-color: #2b78e4;border-collapse: collapse;}
+        .tftable th {min-width: 175px;white-space:nowrap;font-size:12px;color:white;background-color:#4097e1;border-width: 1px;padding: 8px;border-style: solid;border-color: #2b78e4;text-align:left;}
+        .tftable tr {background-color:#a2d4ff;}
+        .tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #2b78e4;}
+        .tftable tr:hover {background-color:#ffffff;}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- Affichage de l'admin en haut à gauche -->
+    <div class="fixed-top mr-3 mb-3" style="margin-left: 1%;">
+        <h1>Bienvenue docteur {{ prenom_medecin }} {{ nom_medecin }}</h1>
+    </div>
+
+    <div class="fixed-top mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <img src="{% static 'images/Doctolibbydjango.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 10%;">
+    </div>
+
+    <div class="h-100">
+        <div class="row h-25">
+
+        </div>
+        <div class="row h-50">
+            <div class="col-2 h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <a href="{% url 'compte_medecin' %}">
+                        <button class="btn btn-secondary w-100 shadow-lg" type="button" style="font-size: 22px;padding:13px;text-align: end;">Mon compte<i class="fas fa-user" style="margin-left:10px;"></i></button>
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'fiche_patient' %}">
+                        <button class="btn btn-primary w-100" type="button" style="font-size: 22px;padding:13px;text-align: end;">Fiches des patients<i class="fas fa-file-medical" style="margin-left:10px;"></i></button>
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'ajout_patient' %}">
+                        <button class="btn btn-info w-100 shadow-lg" type="button" style="font-size: 22px;padding:13px;text-align: end;">Ajouter un patient<i class="fas fa-user-plus" style="margin-left:10px;"></i></button>
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'resultat_etude' %}">
+                        <button class="btn btn-warning w-100 shadow-lg" type="button" style="font-size: 22px;padding:13px;text-align: end;">Résultats de l'étude<i class="fas fa-chart-bar" style="margin-left:10px;"></i></button>
+                    </a>
+                </div>
+            </div>
+            <div class="col-2 h-100 shadow d-flex flex-column" style="overflow-y: auto;padding: 20px;">
+                <h2> Vos patients</h2>
+                <hr style="margin-bottom: 10%;"></hr>
+                {% for patient in patients %}
+                    <div class="row patient-container">
+                        <p onclick="showDetails('{{ patient.id_patient }}');showReponses('{{ patient.id_patient }}')" class="patient-name">Patient n°{{ patient.id_patient }} - {{ patient.prenom_patient }} {{ patient.nom_patient }}</p>
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div class="col-7">
+                <div class="row h-100 shadow" style="margin-left: 1%;padding: 20px;">
+                {% for patient in patients %}
+                        <div id="details-{{ patient.id_patient }}" class="patient-details" style="display:none;">
+                            <div class="row">
+                                <h2>Patient n°{{ patient.id_patient }} - {{ patient.prenom_patient }} {{ patient.nom_patient }}</h2>
+                                <hr></hr>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <p><strong style="background-color: #4097e1;color: white;padding: 7px;border-radius: 30px;">Age :</strong> {{ patient.age_patient }} ans</p>
+                                    <p><strong style="background-color: #4097e1;color: white;padding: 7px;border-radius: 30px;">Ville :</strong> {{ patient.ville_patient }}</p>
+                                    <p><strong style="background-color: #4097e1;color: white;padding: 7px;border-radius: 30px;">Medecin traitant :</strong> Dr. {{ patient.fk_nom_medecin }}</p>
+                                </div>
+                                <div class="col-5">
+                                    <p><strong style="background-color: #4097e1;color: white;padding: 7px;border-radius: 30px;">Sexe :</strong> {{ patient.sexe_patient }}</p>
+                                    <p><strong style="background-color: #4097e1;color: white;padding: 7px;border-radius: 30px;">Téléphone :</strong> {{ patient.tel_patient }}</p>
+                                    <p><strong style="background-color: #4097e1;color: white;padding: 7px;border-radius: 30px;">Dernière connexion :</strong> {{ patient.last_login }}</p>
+                                </div>
+                                <div class="col-3">
+                                    <p><strong style="background-color: #4097e1;color: white;padding: 7px;border-radius: 30px;">Taille :</strong> {{ patient.taille_patient }} cm</p>
+                                    <p><strong style="background-color: #4097e1;color: white;padding: 7px;border-radius: 30px;">Email :</strong> {{ patient.mail_patient }}</p>
+                                </div>
+                                <hr></hr>
+                            </div>
+                            <div class="row" style="margin-left: 1%;overflow-x: auto;overflow-y: auto;">
+                                <!-- Div pour les réponses du patient -->
+                                <div id="reponses-{{ patient.id_patient }}" class="patient-reponses" style="display:none;">
+                                    <table class="tftable">
+                                        <thead>
+                                            <tr>
+                                                <th>ID Réponse</th>
+                                                <th>Date Réponse</th>
+                                                <th>Poids</th>
+                                                <th>Tour de Taille</th>
+                                                <th>Fréq. cardiaque/min</th>
+                                                <th>TA sys. matin</th>
+                                                <th>TA sys. soir</th>
+                                                <th>TA dias. matin</th>
+                                                <th>TA dias. soir</th>
+                                                <th>Symptome cardiovasculaire</th>
+                                                <th>Conso d'alcool</th>
+                                                <th>Grignotage sale</th>
+                                                <th>Grignotage sucré</th>
+                                                <th>Nb repas/jours</th>
+                                                <th>Quantité d'eau bu</th>
+                                                <th>Quantité d'alcool bu</th>
+                                                <th>Activité phys. journée en cours</th>
+                                                <th>Nature act. phys.</th>
+                                                <th>Durée act. phys. en min</th>
+                                                <th>Nb médicaments/jours</th>
+                                                <th>Oublie medic. matin</th>
+                                                <th>Oublie medic. soir</th>
+                                                <th>Effets secondaires</th>
+                                                <th>Symptômes particuliers</th>
+                                                <th>Desc. effets secondaires/sympt.</th>
+                                                <th>Dyspée</th>
+                                                <th>Oedeme</th>
+                                                <th>Episodes infectieux</th>
+                                                <th>Fièvre</th>
+                                                <th>Palpitations</th>
+                                                <th>Début palp.</th>
+                                                <th>Durée palp. en min</th>
+                                                <th>Douleurs thoraciques</th>
+                                                <th>Début doul. thoracique</th>
+                                                <th>Durée doul. thoraciques</th>
+                                                <th>Malaise</th>
+                                                <th>Début du malaise</th>
+                                                <th>Durée du malaise en min</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for reponse in liste_des_infos %}
+                                                {% if reponse.id_patient == patient.id_patient %}
+                                                    <tr>
+                                                        <td>{{ reponse.id_reponse }}</td>
+                                                        <td>{{ reponse.date_reponse }}</td>
+                                                        <td>{{ reponse.poids }}</td>
+                                                        <td>{{ reponse.tour_de_taille_cm }}</td>
+                                                        <td>{{ reponse.frequence_cardiaque_par_min }}</td>
+                                                        <td>{{ reponse.ta_systolique_matin }}</td>
+                                                        <td>{{ reponse.ta_systolique_soir }}</td>
+                                                        <td>{{ reponse.ta_diastolique_matin }}</td>
+                                                        <td>{{ reponse.ta_diastolique_soir }}</td>
+                                                        <td>{{ reponse.symptome_cardiovasculaire }}</td>
+                                                        <td>{{ reponse.consommation_alcool }}</td>
+                                                        <td>{{ reponse.grignotage_sale }}</td>
+                                                        <td>{{ reponse.grignotage_sucre }}</td>
+                                                        <td>{{ reponse.nb_repas_journee_en_cours }}</td>
+                                                        <td>{{ reponse.quantite_eau_bu }}</td>
+                                                        <td>{{ reponse.quantite_alcool_bu }}</td>
+                                                        <td>{{ reponse.activite_physique_journee_en_cours }}</td>
+                                                        <td>{{ reponse.nature_activite_physique }}</td>
+                                                        <td>{{ reponse.id_prise_medicament }}</td>
+                                                        <td>{{ reponse.nb_medicament_pris_dans_la_journee }}</td>
+                                                        <td>{{ reponse.oublie_medic_matin }}</td>
+                                                        <td>{{ reponse.oublie_medic_soir }}</td>
+                                                        <td>{{ reponse.effet_secondaire }}</td>
+                                                        <td>{{ reponse.symptome_particulier }}</td>
+                                                        <td>{{ reponse.effet_secondaire_ou_symptome_description }}</td>
+                                                        <td>{{ reponse.dyspnee }}</td>
+                                                        <td>{{ reponse.oedeme }}</td>
+                                                        <td>{{ reponse.episode_infectieux }}</td>
+                                                        <td>{{ reponse.fievre }}</td>
+                                                        <td>{{ reponse.palpitation }}</td>
+                                                        <td>{{ reponse.debut_palpitation }}</td>
+                                                        <td>{{ reponse.duree_palpitation_en_min }}</td>
+                                                        <td>{{ reponse.douleur_thoracique }}</td>
+                                                        <td>{{ reponse.debut_douleur_thoracique }}</td>
+                                                        <td>{{ reponse.duree_douleur_thoracique_en_min }}</td>
+                                                        <td>{{ reponse.malaise }}</td>
+                                                        <td>{{ reponse.debut_malaise }}</td>
+                                                        <td>{{ reponse.duree_malaise_en_min }}</td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    {%endfor %}
+                </div>
+            </div>
+            <div class="col-1"></div>
+        </div>
+        <div class="row h-25">
+
+        </div>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="margin-left: 1%;">
+        <p style="display:contents;">Fiche médecin n°{{ id_medecin_connecte }}</p>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <a href="{% url 'deconnexion' %}">Déconnexion</a>
+    </div>
+{% endblock %}
+
+{% block extrascripts %}
+    <script>
+        function showDetails(patientId) {
+            // Vous pouvez utiliser AJAX pour récupérer les détails du patient depuis le serveur
+            // Pour cet exemple, nous supposons que les détails sont déjà présents dans le DOM
+
+            // Cacher tous les détails précédemment affichés
+            var allDetails = document.querySelectorAll('.patient-details');
+            allDetails.forEach(function(detail) {
+                detail.style.display = 'none';
+            });
+
+            // Afficher les détails du patient spécifique
+            var details = document.getElementById('details-' + patientId);
+            if (details) {
+                details.style.display = 'block';
+            }
+        }
+    </script>
+    <script>
+        function showReponses(patientId) {
+            // Cacher toutes les réponses précédemment affichées
+            var allReponses = document.querySelectorAll('.patient-reponses');
+            allReponses.forEach(function(reponse) {
+                reponse.style.display = 'none';
+            });
+
+            // Afficher les réponses du patient spécifique
+            var reponses = document.getElementById('reponses-' + patientId);
+            if (reponses) {
+                reponses.style.display = 'block';
+            }
+        }
+    </script>  
+{% endblock %}

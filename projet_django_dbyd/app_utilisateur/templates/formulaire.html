@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Page formulaire{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<!-- 
+    fonds dispo
+    https://ressourceapp.blob.core.windows.net/imagesapp/21018.jpg => Petits points
+    https://ressourceapp.blob.core.windows.net/imagesapp/pngegg.png => Sphere
+    https://ressourceapp.blob.core.windows.net/imagesapp/pngegg (1).png => Autres petits points
+-->
+
+
+<div style="background-image: url('https://ressourceapp.blob.core.windows.net/imagesapp/pngegg (5).png');background-position-x: center;background-position-y: center; background-size: auto;">
+    <!-- Affichage de l'admin en haut à gauche -->
+    <div class="fixed-top mr-3 mb-3" style="margin-left: 1%;">
+        <h1>Bienvenue {{ prenom }} {{ nom }}</h1>
+    </div>
+
+    <div class="fixed-top mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <img src="{% static 'images/Doctolibbydjango.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 10%;">
+    </div>
+
+    <div class="container h-100" style="padding-top: 4%;background-color: white;">
+        <div class="row justify-content-center shadow" style="padding: 2%;height:87vh;">
+
+                <form id="multiStepForm" method="post">
+                    {% csrf_token %}
+                
+                    <!-- Section ActivitePhysique -->
+                    <div id="ActivitePhysique" class="tabcontent">
+                        <div class="row col-12">
+                            <div class="col-5" style="padding: 10px;border-top: 2px solid #E7E7E7;border-left: 2px solid #E7E7E7;border-right: 2px solid #E7E7E7;border-top-right-radius: 20px;">
+                                <h2 style="background-color:#085394;color:white;padding:3px;text-align: center;">Activité physique</h2>
+                            </div>
+                            <div class="col-7" style="text-align: end;margin-right: 0px;padding-right: 0px;z-index: 100;border-bottom: 2px solid #E7E7E7;">
+                                <a href="{% url 'patient' %}">
+                                    <input class="btn btn-danger" type="button" value="Abandonner" style="margin-left: 88%;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row col-12" style="height:70vh;">
+                            <ul style="font-family: Roboto;font-size: 20px;">
+                                <li style="margin: 10px;">Avez-vous eu une activité physique dans la journée ? {{ form_activite_physique.activite_physique_journee_en_cours }}</li>
+                                <li style="margin: 10px;">Décrivez la nature de votre activité physique {{ form_activite_physique.nature_activite_physique }}</li>
+                                <li style="margin: 10px;">Qu'elle est la durée de votre activité physique en minute ? {{ form_activite_physique.duree_activite_physique_en_min }} minutes</li>
+                            </ul>
+                            <img src="{% static 'images/page_form_activite_physique.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 50%;height: 65%;margin-left:48%">
+                        </div>
+                        <div class="row">
+                            <div class="col-3" style="margin-left: 0px;padding-left: 0px;">
+
+                            </div>
+                            <div class="col-6" style="text-align: center;">
+                                <!-- Barre de progression Bootstrap -->
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p>Page 1/7</p>
+                            </div>
+                            <div class="col-3" style="text-align: end;margin-right: 0px;padding-right: 0px;">
+                                <button class="btn btn-primary" type="button" onclick="showNext('Alimentation')">Suivant<i class="fas fa-arrow-right" style="margin-left:10px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                
+
+
+
+
+
+                    <!-- Section Alimentation -->
+                    <div id="Alimentation" class="tabcontent" style="display:none;">
+                        <div class="row col-12">
+                            <div class="col-5" style="padding: 10px;border-top: 2px solid #E7E7E7;border-left: 2px solid #E7E7E7;border-right: 2px solid #E7E7E7;border-top-right-radius: 20px;">
+                                <h2 style="background-color:#085394;color:white;padding:3px;text-align: center;">Alimentation</h2>
+                            </div>
+                            <div class="col-7" style="text-align: end;margin-right: 0px;padding-right: 0px;z-index: 100;border-bottom: 2px solid #E7E7E7;">
+                                <a href="{% url 'patient' %}">
+                                    <input class="btn btn-danger" type="button" value="Abandonner" style="margin-left: 88%;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row col-12" style="height:70vh;">
+                            <ul style="font-family: Roboto;font-size: 20px;">
+                                <li style="margin: 10px;">Consommez-vous de l'alcool ? {{ form_alimentation.consommation_alcool }}</li>
+                                <li style="margin: 10px;">Pratiquez-vous le grignotage salé ? {{ form_alimentation.grignotage_sale }}</li>
+                                <li style="margin: 10px;">Pratiquez-vous le grignotage sucré ? {{ form_alimentation.grignotage_sucre }}</li>
+                                <li style="margin: 10px;">Combien de repas prenez-vous durant la journée ? {{ form_alimentation.nb_repas_journee_en_cours }}</li>
+                                <li style="margin: 10px;">Qu'elle quantité d'eau buvez-vous en litre par semaine ? {{ form_alimentation.quantite_eau_bu }} L</li>
+                                <li style="margin: 10px;">Qu'elle quantité d'alcool buvez-vous en litre par semaine ? {{ form_alimentation.quantite_alcool_bu }} L</li>
+                            </ul> 
+                        </div>
+                        <div class="row">
+                            <div class="col-3" style="margin-left: 0px;padding-left: 0px;">
+                                <button class="btn btn-secondary" type="button" onclick="showPrevious('ActivitePhysique')"><i class="fas fa-arrow-left" style="margin-right:10px;"></i>Précédent</button>
+                            </div>
+                            <div class="col-6" style="text-align: center;">
+                                <!-- Barre de progression Bootstrap -->
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="16.67" aria-valuemin="0" aria-valuemax="100" style="width:16.67%;"></div>
+                                </div>
+                                <p>Page 2/7</p>
+                            </div>
+                            <div class="col-3" style="text-align: end;margin-right: 0px;padding-right: 0px;">
+                                <button class="btn btn-primary" type="button" onclick="showNext('AutreSymptome')">Suivant<i class="fas fa-arrow-right" style="margin-left:10px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                
+
+
+
+
+
+
+                    <!-- Section AutreSymptome -->
+                    <div id="AutreSymptome" class="tabcontent" style="display:none;">
+                        <div class="row col-12">
+                            <div class="col-5" style="padding: 10px;border-top: 2px solid #E7E7E7;border-left: 2px solid #E7E7E7;border-right: 2px solid #E7E7E7;border-top-right-radius: 20px;">
+                                <h2 style="background-color:#085394;color:white;padding:3px;text-align: center;">Autres symptômes</h2>
+                            </div>
+                            <div class="col-7" style="text-align: end;margin-right: 0px;padding-right: 0px;z-index: 100;border-bottom: 2px solid #E7E7E7;">
+                                <a href="{% url 'patient' %}">
+                                    <input class="btn btn-danger" type="button" value="Abandonner" style="margin-left: 88%;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row col-12" style="height:70vh;">
+                            <ul style="font-family: Roboto;font-size: 20px;">
+                                <li style="margin: 10px;">Faites-vous de la dyspnée ? {{ form_autre_symptome.dyspnee }}</li>
+                                <li style="margin: 10px;">Avez-vous un oedeme ? {{ form_autre_symptome.oedeme }}</li>
+                                <li style="margin: 10px;">Avez-vous eu des épisodes infectieux ? {{ form_autre_symptome.episode_infectieux }}</li>
+                                <li style="margin: 10px;">Avez-vous de la fièvre ? {{ form_autre_symptome.fievre }}</li>
+                                <li style="margin: 10px;">Avez-vous eu des palpitations ? {{ form_autre_symptome.palpitation }}</li>
+                                <li style="margin: 10px;">Indiquez l'heure de début des palpitations ? {{ form_autre_symptome.debut_palpitation }}</li>
+                                <li style="margin: 10px;">Indiquez la durée des palpitations en minutes ? {{ form_autre_symptome.duree_palpitation_en_min }} minutes</li>
+                                <li style="margin: 10px;">Avez-vous eu des douleurs thoraciques ? {{ form_autre_symptome.douleur_thoracique }}</li>
+                                <li style="margin: 10px;">Indiquez l'heure de début des douleurs thoraciques ? {{ form_autre_symptome.debut_douleur_thoracique }}</li>
+                                <li style="margin: 10px;">Indiquez la durée des douleurs thoraciques en minutes ? {{ form_autre_symptome.duree_douleur_thoracique_en_min }} minutes</li>
+                                <li style="margin: 10px;">Avez-vous eu des malaises ? {{ form_autre_symptome.malaise }}</li>
+                                <li style="margin: 10px;">Indiquez l'heure de début du malaise ? {{ form_autre_symptome.debut_malaise }}</li> 
+                                <li style="margin: 10px;">Indiquez la durée du malaise en minutes ? {{ form_autre_symptome.duree_malaise_en_min }}</li> 
+                            </ul> 
+                        </div>
+                        <div class="row">
+                            <div class="col-3" style="margin-left: 0px;padding-left: 0px;">
+                                <button class="btn btn-secondary" type="button" onclick="showPrevious('Alimentation')"><i class="fas fa-arrow-left" style="margin-right:10px;"></i>Précédent</button>
+                            </div>
+                            <div class="col-6" style="text-align: center;">
+                                <!-- Barre de progression Bootstrap -->
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="33.33" aria-valuemin="0" aria-valuemax="100" style="width:33.33%;"></div>
+                                </div>
+                                <p>Page 3/7</p>
+                            </div>
+                            <div class="col-3" style="text-align: end;margin-right: 0px;padding-right: 0px;">
+                                <button class="btn btn-primary" type="button" onclick="showNext('EvaluationNiveauStress')">Suivant<i class="fas fa-arrow-right" style="margin-left:10px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+            
+
+
+
+
+
+
+
+                    <!-- Section EvaluationNiveauStress -->
+                    <div id="EvaluationNiveauStress" class="tabcontent" style="display:none;">
+                        <div class="row col-12">
+                            <div class="col-5" style="padding: 10px;border-top: 2px solid #E7E7E7;border-left: 2px solid #E7E7E7;border-right: 2px solid #E7E7E7;border-top-right-radius: 20px;">
+                                <h2 style="background-color:#085394;color:white;padding:3px;text-align: center;">Evaluation du niveau de stress</h2>
+                            </div>
+                            <div class="col-7" style="text-align: end;margin-right: 0px;padding-right: 0px;z-index: 100;border-bottom: 2px solid #E7E7E7;">
+                                <a href="{% url 'patient' %}">
+                                    <input class="btn btn-danger" type="button" value="Abandonner" style="margin-left: 88%;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row col-12" style="height:70vh;overflow-y: auto;">
+                            <ul style="font-family: Roboto;font-size: 20px;">
+                                <p>Indiquez la fréquence d'apparition des différents symptômes de stress durant le mois en cours :</p>
+                                <li style="margin: 10px;">Êtes-vous souvent irritable ? {{ form_evaluation_niveau_stress.irritabilite }}</li>
+                                <li style="margin: 10px;">Ressentez-vous un sentiment dépressif ? {{ form_evaluation_niveau_stress.sentiment_depressif }}</li>
+                                <li style="margin: 10px;">Avez-vous souvent la bouche ou la gorge sèche ? {{ form_evaluation_niveau_stress.bouche_gorge_seche }}</li>
+                                <li style="margin: 10px;">Faites-vous des actions ou gestes impulsifs ? {{ form_evaluation_niveau_stress.action_geste_impulsif }}</li>
+                                <li style="margin: 10px;">Avez-vous l'habitude de grincer des dents ? {{ form_evaluation_niveau_stress.grincement_des_dents }}</li>
+                                <li style="margin: 10px;">Trouvez-vous difficile de rester assis tranquillement ? {{ form_evaluation_niveau_stress.difficulte_a_rester_assis }}</li>
+                                <li style="margin: 10px;">Faites-vous des cauchemars ? {{ form_evaluation_niveau_stress.cauchermars }}</li>
+                                <li style="margin: 10px;">Souffrez-vous de diarrhée ? {{ form_evaluation_niveau_stress.diarrhee }}</li>
+                                <li style="margin: 10px;">Avez-vous tendance à faire des attaques verbales ? {{ form_evaluation_niveau_stress.attaque_verbale }}</li>
+                                <li style="margin: 10px;">Avez-vous des hauts et des bas émotionnels ? {{ form_evaluation_niveau_stress.haut_bas_emotif }}</li>
+                                <li style="margin: 10px;">Avez-vous une grande envie de pleurer ? {{ form_evaluation_niveau_stress.grande_envie_de_pleurer }}</li>
+                                <li style="margin: 10px;">Ressentez-vous une forte envie de fuir ? {{ form_evaluation_niveau_stress.grande_envie_de_fuir }}</li>
+                                <li style="margin: 10px;">Avez-vous souvent des pensées embrouillées ? {{ form_evaluation_niveau_stress.pensees_embrouillees }}</li>
+                                <li style="margin: 10px;">Parlez-vous plus rapidement que d'habitude ? {{ form_evaluation_niveau_stress.debit_plus_rapide }}</li>
+                                <li style="margin: 10px;">Vous sentez-vous fatigué ou lourd de manière généralisée ? {{ form_evaluation_niveau_stress.fatigue_ou_lourdeur_generalise }}</li>
+                                <li style="margin: 10px;">Avez-vous le sentiment d'être surchargé ? {{ form_evaluation_niveau_stress.sentiment_de_etre_surchager }}</li>
+                                <li style="margin: 10px;">Vous sentez-vous émotionnellement fragile ? {{ form_evaluation_niveau_stress.sentiment_de_etre_emotivement_fragile }}</li>
+                                <li style="margin: 10px;">Êtes-vous souvent triste ? {{ form_evaluation_niveau_stress.sentiment_de_tristesse }}</li>
+                                <li style="margin: 10px;">Ressentez-vous de l'anxiété ? {{ form_evaluation_niveau_stress.sentiment_de_anxiete }}</li>
+                                <li style="margin: 10px;">Ressentez-vous une tension émotionnelle ? {{ form_evaluation_niveau_stress.tension_emotionnelle }}</li>
+                                <li style="margin: 10px;">Ressentez-vous de l'hostilité envers les autres ? {{ form_evaluation_niveau_stress.hostilite_envers_les_autres }}</li>
+                                <li style="margin: 10px;">Avez-vous des tremblements ou gestes nerveux ? {{ form_evaluation_niveau_stress.tremblement_ou_geste_nerveux }}</li>
+                                <li style="margin: 10px;">Souffrez-vous de bégaiement ou d'hésitation verbale ? {{ form_evaluation_niveau_stress.begaiement_ou_hesitation_verbale }}</li>
+                                <li style="margin: 10px;">Avez-vous des difficultés à vous concentrer ? {{ form_evaluation_niveau_stress.difficulte_incapacite_concentration }}</li>
+                                <li style="margin: 10px;">Trouvez-vous difficile d'organiser vos pensées ? {{ form_evaluation_niveau_stress.difficulte_organiser_pensee }}</li>
+                                <li style="margin: 10px;">Avez-vous des difficultés à dormir ? {{ form_evaluation_niveau_stress.difficulte_dormir }}</li>
+                                <li style="margin: 10px;">Avez-vous un besoin fréquent d'uriner ? {{ form_evaluation_niveau_stress.besoin_frequent_uriner }}</li>
+                                <li style="margin: 10px;">Souffrez-vous de maux d'estomac ? {{ form_evaluation_niveau_stress.maux_estomac }}</li>
+                                <li style="margin: 10px;">Avez-vous des difficultés à digérer ? {{ form_evaluation_niveau_stress.difficulte_digerer }}</li>
+                                <li style="margin: 10px;">Ressentez-vous des gestes ou sentiments d'impatience ? {{ form_evaluation_niveau_stress.geste_ou_sentiment_imaptience }}</li>
+                                <li style="margin: 10px;">Souffrez-vous de maux de tête ? {{ form_evaluation_niveau_stress.maux_de_tete }}</li>
+                                <li style="margin: 10px;">Avez-vous des douleurs dans le dos ou la nuque ? {{ form_evaluation_niveau_stress.douleur_dos_nuque }}</li>
+                                <li style="margin: 10px;">Avez-vous eu une perte ou un gain d'appétit ? {{ form_evaluation_niveau_stress.perte_gain_appetit }}</li>
+                                <li style="margin: 10px;">Avez-vous perdu l'intérêt pour le sexe ? {{ form_evaluation_niveau_stress.perte_interet_sexe }}</li>
+                                <li style="margin: 10px;">Oubliez-vous fréquemment des choses ? {{ form_evaluation_niveau_stress.oublis_frequents }}</li>
+                                <li style="margin: 10px;">Ressentez-vous des douleurs ou un serrement dans la poitrine ? {{ form_evaluation_niveau_stress.douleur_serrement_poitrine }}</li>
+                                <li style="margin: 10px;">Avez-vous des conflits fréquents avec les autres ? {{ form_evaluation_niveau_stress.conflit_avec_les_autres }}</li>
+                                <li style="margin: 10px;">Trouvez-vous difficile de vous lever après avoir dormi ? {{ form_evaluation_niveau_stress.difficulte_a_se_lever_post_sommeil }}</li>
+                                <li style="margin: 10px;">Vous sentez-vous hors de contrôle ? {{ form_evaluation_niveau_stress.sentiment_hors_de_controle }}</li>
+                                <li style="margin: 10px;">Trouvez-vous difficile de mener une activité de longue durée ? {{ form_evaluation_niveau_stress.difficulte_activite_longue_continue }}</li>
+                                <li style="margin: 10px;">Vous isolez-vous ou vous retirez-vous souvent ? {{ form_evaluation_niveau_stress.mouvement_retrait_isolement }}</li>
+                                <li style="margin: 10px;">Avez-vous des difficultés à vous endormir ? {{ form_evaluation_niveau_stress.difficulte_endormissement }}</li>
+                                <li style="margin: 10px;">Avez-vous des difficultés après des contrariétés ? {{ form_evaluation_niveau_stress.difficulte_post_contrariete }}</li>
+                                <li style="margin: 10px;">Avez-vous souvent les mains moites ? {{ form_evaluation_niveau_stress.main_moite }}</li>
+                                
+                                <li style="margin: 10px;" id="scoreTotal" >Le stress a-t-il un impact significatif sur votre vie ? 0</li>
+                                <p>Score Total : {{ form_evaluation_niveau_stress.impact_stress }}</p>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-3" style="margin-left: 0px;padding-left: 0px;">
+                                <button class="btn btn-secondary" type="button" onclick="showPrevious('AutreSymptome')"><i class="fas fa-arrow-left" style="margin-right:10px;"></i>Précédent</button>
+                            </div>
+                            <div class="col-6" style="text-align: center;">
+                                <!-- Barre de progression Bootstrap -->
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="50.00" aria-valuemin="0" aria-valuemax="100" style="width:50.00%;"></div>
+                                </div>
+                                <p>Page 4/7</p>
+                            </div>
+                            <div class="col-3" style="text-align: end;margin-right: 0px;padding-right: 0px;">
+                                <button class="btn btn-primary" type="button" onclick="showNext('InformationCardiaque')">Suivant<i class="fas fa-arrow-right" style="margin-left:10px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+            
+
+
+
+
+
+
+
+                    <!-- Section InformationCardiaque -->
+                    <div id="InformationCardiaque" class="tabcontent" style="display:none;">
+                        <div class="row col-12">
+                            <div class="col-5" style="padding: 10px;border-top: 2px solid #E7E7E7;border-left: 2px solid #E7E7E7;border-right: 2px solid #E7E7E7;border-top-right-radius: 20px;">
+                                <h2 style="background-color:#085394;color:white;padding:3px;text-align: center;">Informations cardiaques</h2>
+                            </div>
+                            <div class="col-7" style="text-align: end;margin-right: 0px;padding-right: 0px;z-index: 100;border-bottom: 2px solid #E7E7E7;">
+                                <a href="{% url 'patient' %}">
+                                    <input class="btn btn-danger" type="button" value="Abandonner" style="margin-left: 88%;">
+                                </a>
+                            </div>
+                        </div>                       
+                        <div class="row col-12" style="height:70vh;">
+                            <ul style="font-family: Roboto;font-size: 20px;">
+                                <li style="margin: 10px;">Indiquez votre fréquence cardiaque par minutes : {{ form_information_cardiaque.frequence_cardiaque_par_min }} minutes</li>
+                                <li style="margin: 10px;">Indiquez votre tension artérielle systolique du matin : {{ form_information_cardiaque.ta_systolique_matin }}</li>
+                                <li style="margin: 10px;">Indiquez votre tension artérielle systolique du soir : {{ form_information_cardiaque.ta_systolique_soir }}</li>
+                                <li style="margin: 10px;">Indiquez votre tension artérielle diastolique du matin : {{ form_information_cardiaque.ta_diastolique_matin }}</li>
+                                <li style="margin: 10px;">Indiquez votre tension artérielle diastolique du soir : {{ form_information_cardiaque.ta_diastolique_soir }}</li>
+                                <li style="margin: 10px;">Décrivez vos symptômes cardiovasculaires en quelques mots (malaise, perte de connaissance...) : {{ form_information_cardiaque.symptome_cardiovasculaire }}</li>
+                            </ul>
+                            <img src="{% static 'images/page_form_information_cardiaque.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 30%;">
+                        </div>
+                        <div class="row">
+                            <div class="col-3" style="margin-left: 0px;padding-left: 0px;">
+                                <button class="btn btn-secondary" type="button" onclick="showPrevious('EvaluationNiveauStress')"><i class="fas fa-arrow-left" style="margin-right:10px;"></i>Précédent</button>
+                            </div>
+                            <div class="col-6" style="text-align: center;">
+                                <!-- Barre de progression Bootstrap -->
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="66.67" aria-valuemin="0" aria-valuemax="100" style="width:66.67%;"></div>
+                                </div>
+                                <p>Page 5/7</p>
+                            </div>
+                            <div class="col-3" style="text-align: end;margin-right: 0px;padding-right: 0px;">
+                                <button class="btn btn-primary" type="button" onclick="showNext('Physique')">Suivant<i class="fas fa-arrow-right" style="margin-left:10px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+            
+
+
+
+
+
+
+                    <!-- Section Physique -->
+                    <div id="Physique" class="tabcontent" style="display:none;">
+                        <div class="row col-12">
+                            <div class="col-5" style="padding: 10px;border-top: 2px solid #E7E7E7;border-left: 2px solid #E7E7E7;border-right: 2px solid #E7E7E7;border-top-right-radius: 20px;">
+                                <h2 style="background-color:#085394;color:white;padding:3px;text-align: center;">Physique</h2>
+                            </div>
+                            <div class="col-7" style="text-align: end;margin-right: 0px;padding-right: 0px;z-index: 100;border-bottom: 2px solid #E7E7E7;">
+                                <a href="{% url 'patient' %}">
+                                    <input class="btn btn-danger" type="button" value="Abandonner" style="margin-left: 88%;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row col-12" style="height:70vh;">
+                            <ul style="font-family: Roboto;font-size: 20px;">
+                                <li style="margin: 10px;">Indiquez votre poids : {{ form_physique.poids }} kg</li>
+                                <li style="margin: 10px;">Indiquez votre tour de taille : {{ form_physique.tour_de_taille_cm }} cm</li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-3" style="margin-left: 0px;padding-left: 0px;">
+                                <button class="btn btn-secondary" type="button" onclick="showPrevious('InformationCardiaque')"><i class="fas fa-arrow-left" style="margin-right:10px;"></i>Précédent</button>
+                            </div>
+                            <div class="col-6" style="text-align: center;">
+                                <!-- Barre de progression Bootstrap -->
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="83.34" aria-valuemin="0" aria-valuemax="100" style="width:83.34%;"></div>
+                                </div>
+                                <p>Page 6/7</p>
+                            </div>
+                            <div class="col-3" style="text-align: end;margin-right: 0px;padding-right: 0px;">
+                                <button class="btn btn-primary" type="button" onclick="showNext('PriseMedicament')">Suivant<i class="fas fa-arrow-right" style="margin-left:10px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                
+                
+                
+                
+                
+                    <!-- Dernière section -->
+                    <div id="PriseMedicament" class="tabcontent" style="display:none;">
+                        <div class="row col-12">
+                            <div class="col-5" style="padding: 10px;border-top: 2px solid #E7E7E7;border-left: 2px solid #E7E7E7;border-right: 2px solid #E7E7E7;border-top-right-radius: 20px;">
+                                <h2 style="background-color:#085394;color:white;padding:3px;text-align: center;">Prise de médicament</h2>
+                            </div>
+                            <div class="col-7" style="text-align: end;margin-right: 0px;padding-right: 0px;z-index: 100;border-bottom: 2px solid #E7E7E7;">
+                                <a href="{% url 'patient' %}">
+                                    <input class="btn btn-danger" type="button" value="Abandonner" style="margin-left: 88%;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row col-12" style="height:70vh;">
+                            <ul style="font-family: Roboto;font-size: 20px;">
+                                <li style="margin: 10px;">Combien de médicaments prenez-vous dans une journée ? {{ form_prise_medicament.nb_medicament_pris_dans_la_journee }} minutes</li>
+                                <li style="margin: 10px;">Oubliez-vous vos médicaments le soir ? {{ form_prise_medicament.oublie_medic_matin }}</li>
+                                <li style="margin: 10px;">Oubliez-vous vos médicaments le matin ? {{ form_prise_medicament.oublie_medic_soir }}</li>
+                                <li style="margin: 10px;">Avez-vous remarquer des effets secondaires ? {{ form_prise_medicament.effet_secondaire }}</li>
+                                <li style="margin: 10px;">Avez-vous remarquer de nouveaux symptômes après la prise de médicament ? {{ form_prise_medicament.symptome_particulier }}</li>
+                                <li style="margin: 10px;">Décrivez vos effets secondaires et/ou symptômes particuliers remarqués en quelques mots : {{ form_prise_medicament.effet_secondaire_ou_symptome_description }}</li>
+                            </ul>
+                            <img src="{% static 'images/page_form_prise_medic.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 40%;height: 57%;">
+                        </div>
+                        <div class="row">
+                            <div class="col-3" style="margin-left: 0px;padding-left: 0px;">
+                                <button class="btn btn-secondary" type="button" onclick="showPrevious('Physique')"><i class="fas fa-arrow-left" style="margin-right:10px;"></i>Précédent</button>
+                            </div>
+                            <div class="col-6" style="text-align: center;">
+                                <!-- Barre de progression Bootstrap -->
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+                                </div>
+                                <p>Page 7/7</p>
+                            </div>
+                            <div class="col-3" style="text-align: end;margin-right: 0px;padding-right: 0px;">
+                                <input class="btn btn-primary" type="button" value="Sauvegarder le formulaire" onclick="showModal()">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="margin-left: 1%;">
+        <p style="display:contents;">Fiche patient n°{{ id_patient }}</p>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <a href="{% url 'deconnexion' %}">Déconnexion</a>
+    </div>
+</div>
+
+    <!-- La fenêtre modale -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Validation</h5>
+                <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir soumettre les modifications ?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelSubmit">Annuler</button>
+                <button class="btn btn-primary" id="confirmSubmit">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="{% static 'js/validation_formulaire.js' %}"></script>
+    <script src="{% static 'js/form_paginé.js' %}"></script>
+    <script src="{% static 'js/calcul_niv_stress.js' %}"></script>
+{% endblock %}

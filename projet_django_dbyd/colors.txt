@@ -1,0 +1,6 @@
+bleu doctolib = #4097e1
+vert django = #0a2f20
+bleu foncé = #085394
+bleu intermediaire = #2b78e4 
+bleu light = #4097e1
+font doctolib = #0d2339

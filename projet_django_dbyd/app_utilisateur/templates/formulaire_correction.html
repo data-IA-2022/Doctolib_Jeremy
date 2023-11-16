@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Page de correction du formulaire{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/onglets.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>        
+        .my-form-container {
+            height: 500px; /* Hauteur maximale souhaitée */
+            overflow-y: auto; /* Active le défilement vertical si nécessaire */
+        }
+    </style>        
+{% endblock %}
+
+{% block content %}
+    <!-- Affichage de l'admin en haut à gauche -->
+    <div class="fixed-top mr-3 mb-3" style="margin-left: 1%;">
+        <h1>Bienvenue {{ prenom }} {{ nom }}</h1>
+    </div>
+
+    <div class="fixed-top mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <img src="{% static 'images/Doctolibbydjango.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 15%;">
+    </div>
+
+    <div class="h-25">
+
+    </div>
+
+    <div class="container h-50">
+        <div class="row h-75 justify-content-center align-items-center">
+            <div class="col-3 text-center"> 
+                <p>Date de la réponse : {{ derniere_reponse.date_reponse }}</p>
+                <div class="tab bg-body shadow d-flex flex-column">
+                    <button class="tablinks" onclick="openTab(event, 'ActivitePhysique')">Activité Physique</button>
+                    <button class="tablinks" onclick="openTab(event, 'Alimentation')">Alimentation</button>
+                    <button class="tablinks" onclick="openTab(event, 'AutreSymptome')">Autres symptômes</button>
+                    <button class="tablinks" onclick="openTab(event, 'EvaluationNiveauStress')">Evaluation du niveau de stress</button>
+                    <button class="tablinks" onclick="openTab(event, 'InformationCardiaque')">Informations cardiaque</button>
+                    <button class="tablinks" onclick="openTab(event, 'Physique')">Physique</button>
+                    <button class="tablinks" onclick="openTab(event, 'PriseMedicament')">La prise de medicament</button>
+                </div>            
+            </div>
+            
+            <div class="col-9 text-center my-form-container" style="border: 1px solid #ccc;">
+                <form method="post">
+                    {% csrf_token %}
+                    <div id="ActivitePhysique" class="tabcontent">
+                        <h2 style="background-color:#085394;color:white;border-radius: 10px;">Activité Physique</h2>
+                        {{ form_activite_physique.as_p }}
+                    </div>
+                    <div id="Alimentation" class="tabcontent">
+                        <h2 style="background-color:#085394;color:white;border-radius: 10px;">Alimentation</h2>
+                        {{ form_alimentation.as_p }}
+                    </div>
+                    <div id="AutreSymptome" class="tabcontent">
+                        <h2 style="background-color:#085394;color:white;border-radius: 10px;">Autres symptômes</h2>
+                        {{ form_autre_symptome.as_p }}
+                    </div>
+                    <div id="EvaluationNiveauStress" class="tabcontent">
+                        <h2 style="background-color:#085394;color:white;border-radius: 10px;">Evaluation du niveau de stress</h2>
+                        {{ form_evaluation_niveau_stress.as_p }}
+                    </div>
+                    <div id="InformationCardiaque" class="tabcontent">
+                        <h2 style="background-color:#085394;color:white;border-radius: 10px;">Informations cardiaque</h2>
+                        {{ form_information_cardiaque.as_p }}
+                    </div>
+                    <div id="Physique" class="tabcontent">
+                        <h2 style="background-color:#085394;color:white;border-radius: 10px;">Physique</h2>
+                        {{ form_physique.as_p }}
+                    </div>
+                    <div id="PriseMedicament" class="tabcontent">
+                        <h2 style="background-color:#085394;color:white;border-radius: 10px;">Prise de médicament</h2>
+                        {{ form_prise_medicament.as_p }}
+                    </div> 
+                </form>
+            </div>
+
+            <div class="col-3" style="margin-left: 0px;padding-left: 0px;">
+                <a href="{% url 'formulaire_deja_rempli' %}">
+                    <input class="btn btn-secondary" type="button" value="Abandonner">
+                </a>
+            </div>
+            <div class="col-6">
+
+            </div>
+            <div class="col-3" style="text-align: end;margin-right: 0px;padding-right: 0px;">
+                <input class="btn btn-primary" type="button" value="Mettre à jour" onclick="showModal()">
+            </div>
+        </div>
+    </div>
+
+    <div class="h-25">
+
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="margin-left: 1%;">
+        <p style="display:contents;">Fiche patient n°{{ id_patient }}</p>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <a href="{% url 'deconnexion' %}">Déconnexion</a>
+    </div>
+
+    <!-- La fenêtre modale -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Validation</h5>
+                <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir soumettre les modifications ?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelSubmit">Annuler</button>
+                <button class="btn btn-primary" id="confirmSubmit">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="{% static 'js/tab_onglet.js' %}"></script>
+    <script src="{% static 'js/validation_formulaire.js' %}"></script>
+{% endblock %}

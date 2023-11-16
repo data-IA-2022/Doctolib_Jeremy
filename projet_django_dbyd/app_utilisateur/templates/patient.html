@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Page patient{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %}
+
+{% block content %}
+    <!-- Affichage de l'admin en haut à gauche -->
+    <div class="fixed-top mr-3 mb-3" style="margin-left: 1%;">
+        <h1>Bienvenue {{ prenom }} {{ nom }}</h1>
+    </div>
+
+    <div class="fixed-top mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <img src="{% static 'images/Doctolibbydjango.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 10%;">
+    </div>
+
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-5 text-center">
+                <a href="/patient/formulaire" style="display: block; margin-bottom: 10px;">
+                    <button type="button" class="btn btn-primary" style="width: 100%; padding: 10px 0;font-size: 25px;">Remplir le formulaire</button>
+                </a>
+            </div>
+            <div class="col-7 text-center">
+                <img src="{% static 'images/page_patient.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="margin-left: 1%;">
+        <p style="display:contents;">Fiche patient n°{{ id_patient }}</p>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <a href="{% url 'deconnexion' %}">Déconnexion</a>
+    </div>
+{% endblock %}

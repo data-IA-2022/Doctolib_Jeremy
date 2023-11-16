@@ -1,0 +1,31 @@
+.btn-primary{
+    background-color: #4097e1;
+    border-color: #4097e1;
+}
+
+.btn-primary:hover{
+    background-color: #0a2f20;
+    border-color: #0a2f20;
+}
+
+.btn-secondary{
+    background-color: #0a2f20;
+    border-color: #0a2f20;
+}
+
+.btn-secondary:hover{
+    background-color: #4097e1;
+    border-color: #4097e1;
+}
+
+h2{
+    font-family: Roboto!important;
+}
+
+p, a, li{
+    font-family: Roboto;
+}
+
+li{
+    margin: 10px;
+}

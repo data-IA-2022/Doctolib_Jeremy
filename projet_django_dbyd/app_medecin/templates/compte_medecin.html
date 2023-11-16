@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/style_medecin.css' %}" />
+{% endblock %}
+
+{% block content %}
+    <!-- Affichage de l'admin en haut à gauche -->
+    <div class="fixed-top mr-3 mb-3" style="margin-left: 1%;">
+        <h1>Bienvenue docteur {{ prenom_medecin }} {{ nom_medecin }}</h1>
+    </div>
+
+    <div class="fixed-top mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <img src="{% static 'images/Doctolibbydjango.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 10%;">
+    </div>
+
+    <div class="h-100">
+        <div class="row h-25">
+
+        </div>
+        <div class="row h-50">
+            <div class="col-2 h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <a href="{% url 'compte_medecin' %}">
+                        <button class="btn btn-secondary w-100" type="button" style="font-size: 22px;padding:13px;text-align: end;">Mon compte<i class="fas fa-user" style="margin-left:10px;"></i></button>
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'fiche_patient' %}">
+                        <button class="btn btn-primary w-100 shadow-lg" type="button" style="font-size: 22px;padding:13px;text-align: end;">Fiches des patients<i class="fas fa-file-medical" style="margin-left:10px;"></i></button>
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'ajout_patient' %}">
+                        <button class="btn btn-info w-100 shadow-lg" type="button" style="font-size: 22px;padding:13px;text-align: end;">Ajouter un patient<i class="fas fa-user-plus" style="margin-left:10px;"></i></button>
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'resultat_etude' %}">
+                        <button class="btn btn-warning w-100 shadow-lg" type="button" style="font-size: 22px;padding:13px;text-align: end;">Résultats de l'étude<i class="fas fa-chart-bar" style="margin-left:10px;"></i></button>
+                    </a>
+                </div>
+            </div>
+            <div class="col-10 d-flex">
+                <div class="col-6 shadow-lg" style="line-height: 30px;font-size: 20px;padding: 20px;z-index: 10">
+                    <h2> Fiche médecin n° {{ id_medecin_connecte }}</h2>
+                    <hr style="margin-bottom: 10%;"></hr>
+                    <p>Votre Email : {{ reponse_dict.mail_medecin }}</p>
+                    <p>Password : {{ reponse_dict.password_medecin }}</p>
+                    <p>Votre numéro de téléphone : +33{{ reponse_dict.tel_medecin }}</p>
+                    <p>Spécialité : {{ reponse_dict.specialite_medecin }}</p>
+                    <p>Date de la dernière connexion : {{ reponse_dict.last_login }}</p>
+                </div>
+                <div class="col-6">
+                    <img src="{% static 'images/team_medic.jpg' %}" alt="Logo doctolib by django" class="img-fluid mb-2"style="padding-top: 18%;"> 
+                </div>
+            </div>
+        </div>
+        <div class="row h-25">
+            <div class="col-9">
+
+            </div>
+            <div class="col-2">
+                <div style="text-align: right;"> <!-- Align right -->
+                    <a href="{% url 'correction_compte_medecin' %}">
+                        <button type="button" class="btn btn-primary">Modifier mon compte</button>
+                    </a>
+                </div> 
+            </div>
+            <div class="col-1">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="margin-left: 1%;">
+        <p style="display:contents;">Fiche médecin n°{{ id_medecin_connecte }}</p>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <a href="{% url 'deconnexion' %}">Déconnexion</a>
+    </div>
+{% endblock %}

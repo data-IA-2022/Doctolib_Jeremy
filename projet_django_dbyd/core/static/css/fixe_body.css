@@ -1,0 +1,7 @@
+html, body {
+    height: 100%; /* Hauteur totale de la fenêtre de visualisation */
+    width: 100%; /* Largeur totale de la fenêtre de visualisation */
+    margin: 0; /* Enlève les marges par défaut */
+    padding: 0; /* Enlève les paddings par défaut */
+    overflow: hidden; /* Empêche le défilement si le contenu dépasse la taille de la fenêtre */
+  }

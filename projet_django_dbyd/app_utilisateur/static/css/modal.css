@@ -1,0 +1,38 @@
+        /* Style pour la fenêtre modale (ajoutez cela dans votre balise <style> ou dans un fichier CSS externe) */
+        .modal {
+            display: none; /* Caché par défaut */
+            position: fixed; /* Rester en place */
+            z-index: 1; /* Se situe au-dessus */
+            left: 0;
+            top: 0;
+            width: 100%; /* Pleine largeur */
+            height: 100%; /* Pleine hauteur */
+            overflow: auto; /* Enable scroll si nécessaire */
+            background-color: rgb(0,0,0); /* Couleur de fond */
+            background-color: rgba(0,0,0,0.4); /* Noir avec opacité */
+            padding-top: 60px;
+        }
+
+        /* Style du contenu de la fenêtre modale */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 5% depuis le haut et centré */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 25%; /* Peut être plus ou moins, selon votre besoin */
+        }
+
+        /* Le bouton de fermeture (x) */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }

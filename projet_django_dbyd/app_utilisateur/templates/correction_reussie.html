@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Correction réussie{% endblock %}
+
+{% block content %}
+    <!-- Affichage de l'admin en haut à gauche -->
+    <div class="fixed-top mr-3 mb-3" style="margin-left: 1%;">
+        <h1>Bienvenue {{ prenom }} {{ nom }}</h1>
+    </div>
+
+    <div class="fixed-top mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <img src="{% static 'images/Doctolibbydjango.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 10%;">
+    </div>
+
+
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-12 text-center">
+                <img src="{% static 'images/page_correction_en_cours.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2">
+                <h1>Correction en cours</h1>
+                <p id="redirect-message">Redirection dans <span id="countdown">5</span> secondes...</p>
+                <img src="{% static 'images/loading_symbo_blue.webp' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 5%;">
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="margin-left: 1%;">
+        <p style="display:contents;font-family: Roboto;">Fiche patient n°{{ id_patient }}</p>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <a href="{% url 'deconnexion' %}">Déconnexion</a>
+    </div>
+{% endblock %}
+
+
+{% block extrascripts %}
+    <script src="{% static 'js/redirection_vers_formulaire_deja_rempli.js' %}"></script>
+{% endblock %}

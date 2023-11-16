@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Administration{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/style_admin.css' %}" />
+{% endblock %}
+
+{% block content %}
+    <!-- Affichage de l'admin en haut à gauche -->
+    <div class="fixed-top mr-3 mb-3" style="margin-left: 1%;">
+        <h1>Bienvenue {{ prenom_administrator }} {{ nom_administrator }}</h1>
+    </div>
+
+    <div class="fixed-top mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <img src="{% static 'images/Doctolibbydjango.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 10%;">
+    </div>
+
+    <div class ="h-100" style="background-image: url('https://ressourceapp.blob.core.windows.net/imagesapp/pngegg (5).png');background-position-x: center;background-position-y: center; background-size: contain;">
+        <div class="h-25">
+
+        </div>
+
+        <div class="container h-50" style="background-color: white;">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="col-3 text-center">
+                    <!-- Bouton des tabs -->
+                    <div class="tab bg-body shadow d-flex flex-column">
+                        <button class="btn btn-primary tablinks" onclick="openTab(event, 'AjoutMedecin')" data-title="Titre pour Ajout Medecin" id="tabbutton1" style="color:#0d2339">Ajouter un médecin</button>
+                        <button class="btn btn-primary tablinks" onclick="openTab(event, 'CreateMDP')" data-title="Titre pour Create MDP" id="tabbutton2" style="color:#0d2339">Créer un mot de passe crypté</button>                    
+                        <!-- Ajoutez autant de boutons que nécessaire pour vos onglets -->
+                    </div>
+                </div>
+                <div class="col-9 text-center">
+                    <!-- Tabs -->
+                    <div class="row col-12"style="padding: 10px;">
+                        <h2 style="background-color:#085394;color:white;padding:3px;text-align: center;">Administration</h2>
+                        <div id="CreateMDP" class="tabcontent">
+                            <h1>Générer un mot de passe haché</h1>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <label for="password"><p>Entrez le mot de passe en clair :</p></label>
+                                <div class="form-group" style="display: flex; margin:2px;">
+                                    <div class="input-group" style="padding-left: 2%;">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe à crypté" required>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" onclick="togglePassword()">
+                                                <i class="fa fa-fw fa-eye field-icon toggle-password" style="font-size: 1.5em;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary" id="con"><i class="fa fa-lock-open" style="margin-right:10px;"></i>Générer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-25">
+ 
+        </div>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="margin-left: 1%;">
+        <p style="display:contents;">Fiche administrateur n°{{ id_admin_connecte }}</p>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <a href="{% url 'deconnexion' %}">Déconnexion</a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered"> <!-- Add modal-dialog-centered class here -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Mot de passe haché :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="word-wrap: break-word;"> <!-- Add word-wrap style here -->
+                    <!-- Les messages d'erreur s'afficheront ici -->
+                    <p>{{ hashed_password }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="copyButton">Copier le texte</button>                                      
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}>
+
+{% block extrascripts %}
+    <script src="{% static 'js/visible_or_no.js' %}"></script>
+    <script src="{% static 'js/tab_onglet.js' %}"></script>
+    <script>
+    document.getElementById("copyButton").addEventListener("click", async function() {
+        try {
+            await navigator.clipboard.writeText('{{ hashed_password }}');
+            alert('Texte copié dans le presse-papiers');
+        } catch (err) {
+            alert('Erreur lors de la copie du texte :', err);
+        }
+    });
+    </script>
+    <script>
+        {% if hashed_password %}
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log('Modal should show');
+            var myModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            myModal.show();
+        });
+        {% else %}
+        console.log('No messages to show');
+        {% endif %}
+    </script>
+{% endblock %}

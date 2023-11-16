@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Page d'attente avant un nouveau formulaire{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %}
+
+{% block content %}
+    
+    <!-- Affichage de l'admin en haut à gauche -->
+    <div class="fixed-top mr-3 mb-3" style="margin-left: 1%;">
+        <h1>Bienvenue {{ prenom }} {{ nom }}</h1>
+    </div>
+
+    <div class="fixed-top mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <img src="{% static 'images/Doctolibbydjango.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 10%;">
+    </div>
+
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-5 text-center">
+                <div style="text-align: left;">
+                    <h2 style ="font-size: 52px;color:#085394">Prochaine soumission</h2>
+                    <h2>du formulaire dans :</h2>
+                    <div id="countdown" style="font-size: 25px;font-family: Roboto;"></div>
+                </div>
+                <div style="text-align: right;margin-top:20%;"> <!-- Align right -->
+                    <a href="formulaire_deja_rempli/formulaire_correction">
+                        <button type="button" class="btn btn-primary">Corriger son formulaire</button>
+                    </a>
+                </div>
+            </div>
+            <div class="col-7 text-center">
+                <img src="{% static 'images/page_form_deja_rempli.png' %}" alt="Logo doctolib by django" class="img-fluid mb-2" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="margin-left: 1%;">
+        <p style="display:contents;">Fiche patient n°{{ id_patient }}</p>
+    </div>
+
+    <div class="fixed-bottom mr-3 mb-3" style="text-align: end;margin-right: 1%;">
+        <a href="{% url 'deconnexion' %}">Déconnexion</a>
+    </div>
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="{% static 'js/countdown.js' %}"></script>
+{% endblock %}
