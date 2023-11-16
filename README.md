@@ -23,6 +23,4 @@ Une brève description de ce que fait votre application, ses caractéristiques p
    ```bash
    docker pull mysql```
 
-   ```bash   
    docker run --name nom_conteneur_mysql -e MYSQL_ROOT_PASSWORD=votre_mot_de_passe -d mysql
-   bash```
