@@ -23,5 +23,9 @@ Une brève description de ce que fait votre application, ses caractéristiques p
    ```bash
    docker pull mysql
 
+### Étape 3 : Création et Lancement d'un Conteneur MySQL
+
+1. Ouvrez votre terminal et exécutez la commande suivante pour télécharger l'image MySQL :
    ```bash
-   docker run --name nom_conteneur_mysql -e MYSQL_ROOT_PASSWORD=votre_mot_de_passe -d mysql
+   docker pull mysql
+
